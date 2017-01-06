@@ -1,0 +1,3 @@
+post-build=verizon/maserati_vzw/cdma_maserati:6.0.1/MHC19Q/20160413:user/release-keys
+post-timestamp=1460560572
+pre-device=cdma_maserati
