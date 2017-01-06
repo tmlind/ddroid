@@ -1,0 +1,65 @@
+Readme file for DDroid
+
+HARDWARE
+
+1. Custom USB serial cable needed
+
+There is a debug uart at tty[SO]2 multiplexed with the USB connector. To use
+it, you need a custom cable with D+ and D- connected to a 3.3V UART. You need
+to leave VBUS disconnected to avoid the connector getting multiplexed back to
+USB. It's easiest to make the custom UART by ordering a micro-USB-B breakout
+board and connecting the USB serial cable wires to it. I used the sparkfun
+break out board, others should work fine too.
+
+The wire connections are:
+d-	device uart tx	usb serial rx ftdi yellow, pl2303 white
+d+	device uart rx	usb serial tx ftdi orange, pl2303 green
+gnd	device ground	usb serial gnd
+vbus	do not connect
+
+BUILDING
+
+You will need binaries from ddroid4-mainline-kexec-0.3.tar.xz or later,
+this can be downloaded from:
+
+http://muru.com/linux/d4/
+
+Then cd to ddroid directory and build the kexec wrapper.
+
+$ export CROSS_COMPILER=/path/to/your/arm-unknown-linux-
+$ make
+
+The make will complain about several files that you need to initially
+copy into place to make make happy, then you can create the bootable
+SafeStrap installable image:
+
+$ make zip
+
+And then you can adb push it to your droid 4 /sdcard:
+
+$ make push
+
+INSTALLATION WITH SAFESTRAP
+
+Boot to SafeStrap recovery mode, and create a new boot ROM under
+"Boot Options", then "Create ROM Slot". After it's done choose
+"" and browse to the /sdcard directory and install the ddroid
+zip file to the new ROM slot.
+
+When installing, SafeStrap will ask few questions:
+
+1. No OS Installed! Are you sure you wish to reboot?
+
+Select "Swipe to Reboot" here.
+
+2. Your device does not appear to be rooted, install SuperSU now?
+
+It's OK to select "Do Not Install" or "Swipe to Install".
+
+Then the new kernel should start booting.
+
+DEVELOPMENT
+
+This initial version has a bunch of files copied from a working
+SafeStrap image. If somebody knows how to get rid of those or
+maybe generate them with scripts please send patches.
