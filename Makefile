@@ -25,7 +25,7 @@ $(error Missing droid4-mainline-kexec-0.3 system/etc/kexec/arm_kexec.ko)
 endif
 
 ifeq ($(wildcard system/etc/kexec/ramdisk.img),)
-$(error Place mainline initramfs to system/etc/kexec/ramdisk.img)
+$(warning No initramfs found at system/etc/kexec/ramdisk.img)
 endif
 
 ifeq ($(wildcard system/etc/kexec/kexec.static),)
