@@ -1,7 +1,10 @@
-system/etc/kexec/kexec.ko
-system/etc/kexec/kernel
+# files from droid4-mainline-kexec-0.3
 system/etc/kexec/uart.ko
-system/etc/kexec/devtree
 system/etc/kexec/arm_kexec.ko
-system/etc/kexec/ramdisk.img
+system/etc/kexec/kexec.ko
 system/etc/kexec/kexec.static
+
+# kernel
+system/etc/kexec/kernel
+system/etc/kexec/devtree
+system/etc/kexec/ramdisk.img
