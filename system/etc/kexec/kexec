@@ -1,0 +1,52 @@
+#!/sbin/bbx sh
+# vim: set filetype=sh:
+
+IMGSIZE=26214400
+CMDLINE="root=/dev/mmcblk1p23 console=tty0 console=ttyS2,115200 fbcon=rotate:1 debug earlyprintk earlycon"
+
+init_uart() {
+	# create missing ttyO2 device
+	if [ ! -e /dev/ttyO2 ]; then
+		/sbin/bbx mount -o rw,remount /
+		/sbin/bbx mknod /dev/ttyO2 c 249 2
+		/sbin/bbx mount -o ro,remount /
+	fi
+
+	# setup ttyO2
+	/sbin/bbx stty -F /dev/ttyO2 clocal cread cs8 min 1 time 5 115200
+
+	# reroute stdout & stderr to ttyO2
+	exec 1> /dev/ttyO2
+	exec 2> /dev/ttyO2
+}
+
+set_permissions() {
+	/sbin/bbx mount -o rw,remount /
+	/sbin/bbx chmod 755 /kexec.static
+	/sbin/bbx chown 0.2000 /kexec.static
+	/sbin/bbx mount -o ro,remount /
+}
+
+boot() {
+	# image-size: Make sure initrd won't overlap kernel using omap2plus_defconfig
+	# logwrapper copies /system/etc/kexec/{kernel,devtree,ramdisk.img} to /
+
+	/sbin/bbx echo "loading new kernel now..."
+	/sbin/bbx echo "  commandline: ${CMDLINE}"
+	/kexec.static -d -l /kernel --image-size="${IMGSIZE}" --dtb=/devtree --command-line="${CMDLINE}"
+
+	/sbin/bbx echo "booting new kernel now..."
+	/kexec.static -e
+}
+
+fail() {
+	/sbin/bbx echo "kexec failed!"
+
+	# mount /system for adb
+	/sbin/bbx mount -t ext3 /dev/block/loop-system /system
+}
+
+init_uart
+set_permissions
+boot
+fail

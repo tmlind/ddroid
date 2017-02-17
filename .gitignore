@@ -1,9 +1,7 @@
-src/kexec-wrap/kexec-wrap
 system/etc/kexec/kexec.ko
 system/etc/kexec/kernel
 system/etc/kexec/uart.ko
 system/etc/kexec/devtree
-system/etc/kexec/kexec
 system/etc/kexec/arm_kexec.ko
 system/etc/kexec/ramdisk.img
 system/etc/kexec/kexec.static

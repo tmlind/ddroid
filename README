@@ -24,11 +24,6 @@ this can be downloaded from:
 
 http://muru.com/linux/d4/
 
-Then cd to ddroid directory and build the kexec wrapper.
-
-$ export CROSS_COMPILER=/path/to/your/arm-unknown-linux-
-$ make
-
 The make will complain about several files that you need to initially
 copy into place to make make happy, then you can create the bootable
 SafeStrap installable image:
