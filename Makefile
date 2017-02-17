@@ -30,7 +30,7 @@ endif
 
 zip:
 	rm -f ../ddroid-$(TIMESTAMP).zip
-	zip -qr ../ddroid-$(TIMESTAMP).zip .
+	zip -qr ../ddroid-$(TIMESTAMP).zip META-INF install system .safestrapped
 	echo "Zipped up ../ddroid-$(TIMESTAMP).zip, now run make push"
 
 push: zip
